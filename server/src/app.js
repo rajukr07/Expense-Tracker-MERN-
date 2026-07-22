@@ -1,20 +1,21 @@
 const express = require("express");
-const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// JSON middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Health check route
+// Health route
 app.get("/api/health", (req, res) => {
-  res.status(200).json({
+  res.json({
     success: true,
     message: "Expense Tracker API is running",
-    environment: process.env.NODE_ENV || "development",
+    environment: process.env.NODE_ENV,
   });
 });
+
+// Auth routes
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
