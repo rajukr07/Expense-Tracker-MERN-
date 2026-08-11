@@ -23,7 +23,7 @@ const createExpense = async (req, res) => {
       user: req.user._id,
       title: title.trim(),
       amount: Number(amount),
-      category,
+      category: category.trim(),
       date: date || Date.now(),
       note: note ? note.trim() : "",
     });
@@ -64,6 +64,42 @@ const getExpenses = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Unable to fetch expenses",
+    });
+  }
+};
+
+// Get a single expense
+const getExpenseById = async (req, res) => {
+  try {
+    const expense = await Expense.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!expense) {
+      return res.status(404).json({
+        success: false,
+        message: "Expense not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      expense,
+    });
+  } catch (error) {
+    console.error("Get expense error:", error);
+
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid expense ID",
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to fetch expense",
     });
   }
 };
@@ -191,6 +227,7 @@ const deleteExpense = async (req, res) => {
 module.exports = {
   createExpense,
   getExpenses,
+  getExpenseById,
   updateExpense,
   deleteExpense,
 };
