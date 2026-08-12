@@ -484,9 +484,3 @@ This project was developed to practice and demonstrate full-stack MERN developme
 **Raju Kumar**
 
 React & React Native Developer
-
----
-
-## 📄 License
-
-This project is created for educational, learning, and portfolio purposes..
