@@ -7,13 +7,16 @@ const expenseRoutes = require("./routes/expenseRoutes");
 const app = express();
 
 // CORS
-app.use(
+
+  app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://expense-tracker-mern-iyfq.vercel.app",
+    ],
     credentials: true,
   })
 );
-
 // JSON middleware
 app.use(express.json());
 
